@@ -1,0 +1,84 @@
+pipeline {
+
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    options {
+        buildDiscarder logRotator( 
+                    daysToKeepStr: '15', 
+                    numToKeepStr: '10'
+            )
+    }
+
+    environment {
+        POLITE_ID = "3984565A"
+    }
+
+    stages {
+        stage('ST1-3984565A') {
+            steps {
+                sh """
+                    echo "ST1-${POLITE_ID}: Setup Release Environment Completed."
+                """
+            }
+        }
+
+        stage('ST2-3984565A') {
+            steps {
+                sh """
+                    echo "Test Docker commands"
+                    docker images
+                    echo "ST2-${POLITE_ID}: Server Setup Completed"
+                """
+            }
+        }
+
+        stage('ST3-Parallel-3984565A') {
+            parallel {
+                stage('ST3a-3984565A') {
+                    steps {
+                        sh """
+                            echo "ST3A-${POLITE_ID}: X-Site Scripting (XSS) Test Completed and Report Generated"
+                        """
+                    }
+                }
+
+                stage('ST3b-3984565A') {
+                    steps {
+                        sh """
+                            echo "ST3B-${POLITE_ID}: SQL injection (SQLI) Test Completed and Report Generated"
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('ST4-3984565A') {
+            steps {
+                sh """
+                    echo "ST4-${POLITE_ID} : Security reports are checked"
+                """
+            }
+        }
+
+        stage('ST5-3984565A') {
+            steps {
+                input(message: "Hello ${POLITE_ID}, permission to proceed to next phase?")
+                sh """
+                    echo "ST5-${POLITE_ID} : Approve to proceed to next phase"
+                """
+            }
+        }
+
+        stage('ST6-3984565A') {
+            steps {
+                sh """
+                    echo "ST6-${POLITE_ID} : Ready for next phase"
+                """
+            }
+        }
+    }
+}
