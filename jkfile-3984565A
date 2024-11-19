@@ -29,7 +29,6 @@ pipeline {
         stage('ST2-3984565A') {
             steps {
                 sh """
-                    whoami | xargs groups
                     docker ps --filter "name=svr-3984565a" -q | grep -q . && docker ps --filter "name=svr-3984565a" -q | xargs docker stop | xargs docker rm
                     docker run -p 32900:80 -d -it --name svr-3984565a img-base-3984565a /bin/bash
                     docker exec -it svr-3984565a /bin/bash service apache2 start
