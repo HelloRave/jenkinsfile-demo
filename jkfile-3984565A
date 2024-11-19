@@ -69,7 +69,8 @@ pipeline {
             steps {
                 input(
                     message: "Hello ${POLITE_ID}, permission to proceed to next phase?",
-                    submitter: "jadmin"
+                    submitter: "jadmin",
+                    submitterParameter: "jadmin"
                 )
                 sh """
                     echo "ST5-${POLITE_ID} : Approve to proceed to next phase"
