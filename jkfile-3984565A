@@ -67,7 +67,10 @@ pipeline {
 
         stage('ST5-3984565A') {
             steps {
-                input(message: "Hello ${POLITE_ID}, permission to proceed to next phase?")
+                input(
+                    message: "Hello ${POLITE_ID}, permission to proceed to next phase?",
+                    submitter: "jadmin"
+                )
                 sh """
                     echo "ST5-${POLITE_ID} : Approve to proceed to next phase"
                 """
