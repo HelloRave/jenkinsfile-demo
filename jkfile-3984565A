@@ -29,7 +29,7 @@ pipeline {
         stage('ST2-3984565A') {
             steps {
                 sh '''
-                    CONTAINER_ID=$(docker ps --filter "name=svr-3984565a" -q) && [ -n "$CONTAINER_ID" ] && docker stop $CONTAINER_ID && docker rm $CONTAINER_ID
+                    docker ps --filter "name=svr-3984565a" -q | grep -q . && docker ps --filter "name=svr-3984565a" -q | xargs docker stop | xargs docker rm
                     docker run -p 32900:80 -d --name svr-3984565a -i img-base-3984565a /bin/bash
                     docker exec -i svr-3984565a /bin/bash service apache2 start
                     echo "ST2-${POLITE_ID}: Server Setup Completed"
