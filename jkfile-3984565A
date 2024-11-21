@@ -7,10 +7,8 @@ pipeline {
     }
 
     options {
-        buildDiscarder logRotator( 
-                    daysToKeepStr: '15', 
-                    numToKeepStr: '10'
-            )
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds(abortPrevious: true)
     }
 
     environment {
@@ -38,21 +36,22 @@ pipeline {
         }
 
         stage('ST3-Parallel-3984565A') {
-            steps {
-                sh "echo ST3 Parallel-${POLITE_ID}-: Security Testing"
-
-                parallel (
-                    "ST3a-3984565A": {
+            parallel {
+                stage('ST3a-3984565A') {
+                    steps {
                         sh """
                             echo "ST3A-${POLITE_ID}: X-Site Scripting (XSS) Test Completed and Report Generated"
                         """
-                    },
-                    "ST3b-3984565A": {
+                    }
+                }
+
+                stage('ST3b-3984565A') {
+                    steps {
                         sh """
                             echo "ST3B-${POLITE_ID}: SQL injection (SQLI) Test Completed and Report Generated"
                         """
                     }
-                )
+                }
             }
         }
 
