@@ -18,7 +18,7 @@ pipeline {
     }
 
     stages {
-        stage("ST1-${POLITE_ID}") {
+        stage('ST1-3984565A') {
             steps {
                 sh """
                     echo "ST1-${POLITE_ID}: Setup Release Environment Completed."
@@ -41,23 +41,18 @@ pipeline {
             steps {
                 sh "echo ST3 Parallel-${POLITE_ID}-: Security Testing"
 
-                parallel {
-                    stage('ST3a-3984565A') {
-                        steps {
-                            sh """
-                                echo "ST3A-${POLITE_ID}: X-Site Scripting (XSS) Test Completed and Report Generated"
-                            """
-                        }
+                parallel (
+                    "ST3a-3984565A": {
+                        sh """
+                            echo "ST3A-${POLITE_ID}: X-Site Scripting (XSS) Test Completed and Report Generated"
+                        """
+                    },
+                    "ST3b-3984565A": {
+                        sh """
+                            echo "ST3B-${POLITE_ID}: SQL injection (SQLI) Test Completed and Report Generated"
+                        """
                     }
-
-                    stage('ST3b-3984565A') {
-                        steps {
-                            sh """
-                                echo "ST3B-${POLITE_ID}: SQL injection (SQLI) Test Completed and Report Generated"
-                            """
-                        }
-                    }
-                }
+                )
             }
         }
 
